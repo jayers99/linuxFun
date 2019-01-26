@@ -1,30 +1,12 @@
-cat sample.txt | gsed -E 's/[[:blank:]]//g' | gsed -E 's/:/\t/g'
+# this will print just lines with changes
+cat sample.txt | gawk -F"\"" '$4 != $2 { print $0 }'
+terraform plan | gawk -F"\"" '$4 != $2 { print $0 }'
 
 
 
 
-
-
-function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s }
-function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s }
-function trim(s)  { return rtrim(ltrim(s)); }
-BEGIN {
-# whatever
-}
-{
-# whatever
-}
-END {
-# whatever
-}
-
-
-
-
-
-cat sample.txt | sed -e 's/\s/blah/g'
-cat sample.txt | head -n 1 | awk -F '[.:=>]' ' { if ($5 != $7) print $5 $7 } '
-cat sample.txt | awk -F '[.:=]' ' { print $0; print $3 } '
+# this os mostly junk that didn't work
+cat sample.txt | gsed -E 's/\s//g' | gsed -E 's/:/\t/g'
 
 cat sample.txt | head -n 1 | awk -F '[.:=>]' '
 {
@@ -35,8 +17,20 @@ cat sample.txt | head -n 1 | awk -F '[.:=>]' '
 }'
 
 
-cat sample.txt | head -n 1 | awk -F '[.:=>]' ' { function junk(s) { print s } }'
+# have not worked on getting function working in gawk was unsuccessful in awk
+: <<'END'
+cat sample.txt | head -n 1 | gawk -F '[.:=>]' ' { function junk(s) { print s } }'
 
-
-
-cat sample.txt | awk ' { print $0; print $3 } '
+function ltrim(s) { sub(/^[ \t\r\n]+/, "", s); return s }
+function rtrim(s) { sub(/[ \t\r\n]+$/, "", s); return s }
+function trim(s)  { return rtrim(ltrim(s)); }
+BEGIN {
+# whatever
+}
+{
+# whatever
+}
+#END {
+# whatever
+#}
+END
